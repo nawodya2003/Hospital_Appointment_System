@@ -2,8 +2,8 @@ package com.example.hospital_appointment_system.service;
 
 import java.util.List;
 
-import com.example.hospital_appointment_system.DTO.patient.PatientRequestDTO;
-import com.example.hospital_appointment_system.DTO.patient.PatientResponseDTO;
+import com.example.hospital_appointment_system.dto.patient.PatientRequestDTO;
+import com.example.hospital_appointment_system.dto.patient.PatientResponseDTO;
 
 public interface PatientService {
 

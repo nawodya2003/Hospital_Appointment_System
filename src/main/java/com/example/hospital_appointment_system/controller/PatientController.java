@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.hospital_appointment_system.DTO.patient.PatientRequestDTO;
-import com.example.hospital_appointment_system.DTO.patient.PatientResponseDTO;
+import com.example.hospital_appointment_system.dto.patient.PatientRequestDTO;
+import com.example.hospital_appointment_system.dto.patient.PatientResponseDTO;
+import com.example.hospital_appointment_system.payload.ApiResponse;
 import com.example.hospital_appointment_system.service.PatientService;
 
 import jakarta.validation.Valid;
@@ -29,37 +30,61 @@ public class PatientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PatientResponseDTO createPatient(
+    public ApiResponse<PatientResponseDTO> createPatient(
             @Valid @RequestBody PatientRequestDTO requestDTO) {
 
-        return patientService.createPatient(requestDTO);
+        PatientResponseDTO response = patientService.createPatient(requestDTO);
+        return ApiResponse.<PatientResponseDTO>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("Patient created successfully")
+                .data(response)
+                .build();
     }
 
     @GetMapping
-    public List<PatientResponseDTO> getAllPatients() {
+    public ApiResponse<List<PatientResponseDTO>> getAllPatients() {
 
-        return patientService.getAllPatients();
+        List<PatientResponseDTO> response = patientService.getAllPatients();
+        return ApiResponse.<List<PatientResponseDTO>>builder()
+                .status(HttpStatus.OK.value())
+                .message("Patients fetched successfully")
+                .data(response)
+                .build();
     }
 
     @GetMapping("/{id}")
-    public PatientResponseDTO getPatientById(@PathVariable Long id) {
+    public ApiResponse<PatientResponseDTO> getPatientById(@PathVariable Long id) {
 
-        return patientService.getPatientById(id);
+        PatientResponseDTO response = patientService.getPatientById(id);
+        return ApiResponse.<PatientResponseDTO>builder()
+                .status(HttpStatus.OK.value())
+                .message("Patient fetched successfully")
+                .data(response)
+                .build();
     }
 
     @PutMapping("/{id}")
-    public PatientResponseDTO updatePatient(
+    public ApiResponse<PatientResponseDTO> updatePatient(
             @PathVariable Long id,
             @Valid @RequestBody PatientRequestDTO requestDTO) {
 
-        return patientService.updatePatient(id, requestDTO);
+        PatientResponseDTO response = patientService.updatePatient(id, requestDTO);
+        return ApiResponse.<PatientResponseDTO>builder()
+                .status(HttpStatus.OK.value())
+                .message("Patient updated successfully")
+                .data(response)
+                .build();
     }
 
     @DeleteMapping("/{id}")
-    public String deletePatient(@PathVariable Long id) {
+    public ApiResponse<String> deletePatient(@PathVariable Long id) {
 
         patientService.deletePatient(id);
 
-        return "Patient deleted successfully";
+        return ApiResponse.<String>builder()
+                .status(HttpStatus.OK.value())
+                .message("Patient deleted successfully")
+                .data(null)
+                .build();
     }
 }

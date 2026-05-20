@@ -1,7 +1,5 @@
 package com.example.hospital_appointment_system.entity;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,17 +14,16 @@ import lombok.ToString;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "patients")
+@Table(name = "doctors")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patient {
+public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,21 +37,18 @@ public class Patient {
     @Column(nullable = false)
     private String lastName;
 
+    @NotBlank(message = "Specialization is required")
+    @Column(nullable = false)
+    private String specialization;
+
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Phone number is required")
-    @Column(nullable = false)
     private String phoneNumber;
 
-    @NotNull(message = "Date of birth is required")
-    private LocalDate dateOfBirth;
-
-    private String gender;
-
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Appointment> appointments;

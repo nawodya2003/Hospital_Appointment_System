@@ -1,7 +1,7 @@
 package com.example.hospital_appointment_system.service.impl;
 
-import com.example.hospital_appointment_system.DTO.patient.PatientRequestDTO;
-import com.example.hospital_appointment_system.DTO.patient.PatientResponseDTO;
+import com.example.hospital_appointment_system.dto.patient.PatientRequestDTO;
+import com.example.hospital_appointment_system.dto.patient.PatientResponseDTO;
 import com.example.hospital_appointment_system.entity.Patient;
 import com.example.hospital_appointment_system.exception.ResourceNotFoundException;
 import com.example.hospital_appointment_system.repository.PatientRepository;

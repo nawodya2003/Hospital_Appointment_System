@@ -1,13 +1,11 @@
-package com.example.hospital_appointment_system.dto.patient;
-
-import java.time.LocalDate;
+package com.example.hospital_appointment_system.dto.doctor;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class PatientRequestDTO {
+public class DoctorRequestDTO {
 
     @NotBlank(message = "First name is required")
     private String firstName;
@@ -15,13 +13,12 @@ public class PatientRequestDTO {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @Email(message = "Invalid email")
+    @NotBlank(message = "Specialization is required")
+    private String specialization;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Phone number is required")
     private String phoneNumber;
-
-    private LocalDate dateOfBirth;
-
-    private String gender;
 }
