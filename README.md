@@ -46,9 +46,15 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 From the project root:
 
+Prerequisites
+Java 17 JDK installed
+MySQL running locally
+Maven (or use bundled mvnw.cmd on Windows)
+
 ```powershell
-./mvnw clean package
-./mvnw spring-boot:run
+cd "----"
+.\mvnw clean package
+.\mvnw spring-boot:run
 ```
 
 Or run the generated JAR:
