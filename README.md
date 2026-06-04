@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Hospital Appointment System
 
 A Spring Boot REST API for managing doctors, patients, and hospital appointments.
@@ -469,4 +468,4 @@ W A C Ramindu	Exception Handling, Validation, Postman Testing, Documentation
 For any issues or questions, please contact the team members or refer to the project documentation.
 
 Developed with ☕ and Spring Boot
->>>>>>> bfd08a839df296dbb376f99d40a7693e7feb8c92
+
