@@ -2,6 +2,7 @@ package com.example.hospital.repository;
 
 import com.example.hospital.entity.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Repository for Appointment entity operations.
  */
+@Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     /**
