@@ -1,7 +1,13 @@
 package com.example.hospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -9,6 +15,10 @@ import java.time.LocalTime;
  */
 @Entity
 @Table(name = "appointments")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"patient", "doctor"})
 public class Appointment {
 
     @Id
@@ -16,66 +26,44 @@ public class Appointment {
     private Long id;
 
     @Column(nullable = false)
+    @NotNull(message = "Appointment date is required")
+    @FutureOrPresent(message = "Appointment date must be today or in the future")
     private LocalDate appointmentDate;
 
     @Column(nullable = false)
+    @NotNull(message = "Start time is required")
     private LocalTime startTime;
 
     @Column(nullable = false)
+    @NotNull(message = "End time is required")
     private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'SCHEDULED'")
     private AppointmentStatus status = AppointmentStatus.SCHEDULED;
 
+    @Column(columnDefinition = "TEXT")
+    @Size(max = 500, message = "Notes must not exceed 500 characters")
     private String notes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
+    @NotNull(message = "Patient is required")
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
+    @NotNull(message = "Doctor is required")
     private Doctor doctor;
 
-    public Appointment() {}
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    public Appointment(Long id, LocalDate appointmentDate, LocalTime startTime, LocalTime endTime, AppointmentStatus status, String notes, Patient patient, Doctor doctor) {
-        this.id = id;
-        this.appointmentDate = appointmentDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = status;
-        this.notes = notes;
-        this.patient = patient;
-        this.doctor = doctor;
-    }
+    @Column(nullable = false)
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public LocalDate getAppointmentDate() { return appointmentDate; }
-    public void setAppointmentDate(LocalDate appointmentDate) { this.appointmentDate = appointmentDate; }
-    public LocalTime getStartTime() { return startTime; }
-    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
-    public LocalTime getEndTime() { return endTime; }
-    public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
-    public AppointmentStatus getStatus() { return status; }
-    public void setStatus(AppointmentStatus status) { this.status = status; }
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
-    public Patient getPatient() { return patient; }
-    public void setPatient(Patient patient) { this.patient = patient; }
-    public Doctor getDoctor() { return doctor; }
-    public void setDoctor(Doctor doctor) { this.doctor = doctor; }
-
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "id=" + id +
-                ", appointmentDate=" + appointmentDate +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", status=" + status +
-                ", notes='" + notes + '\'' +
-                '}';
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }
